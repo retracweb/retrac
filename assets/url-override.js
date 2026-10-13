@@ -3,11 +3,13 @@
     'use strict';
 
     // Your new download URL
-    const NEW_DOWNLOAD_URL = 'https://projectretracfn.com/download';
+    const NEW_DOWNLOAD_URL = 'https://projectretrac.dev/download';
 
     // Old URLs to replace (add any variations you find)
     const OLD_URLS = [
         'https://github.com/retracfndev/Retrac/releases/download/2.1.2/Retrac.Setup.2.1.2.exe',
+        'https://projectretracfn.com/download',
+        '/download',
         // Add more old URLs here if needed
     ];
 
