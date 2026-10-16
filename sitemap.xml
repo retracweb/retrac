@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://projectretrac.dev/</loc>
+    <lastmod>2026-10-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://projectretrac.dev/OG.webp</image:loc>
+      <image:title>Project Retrac - OG Fortnite Emulator</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-og-fortnite-launcher.png</image:loc>
+      <image:title>Project Retrac OG Fortnite emulator launcher home screen</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-og-fortnite-gameplay.png</image:loc>
+      <image:title>Project Retrac OG Fortnite gameplay with original graphics</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-og-fortnite-chapter-2-map.jpg</image:loc>
+      <image:title>Classic OG Fortnite Chapter 2 map in Project Retrac</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-og-fortnite-classic-weapons.png</image:loc>
+      <image:title>Classic OG Fortnite weapons in Project Retrac</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-launcher-downloads-chapter-2-season-4.png</image:loc>
+      <image:title>Project Retrac launcher downloads page with Fortnite Chapter 2 Season 4</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-launcher-discord-login.png</image:loc>
+      <image:title>Project Retrac launcher Discord login screen</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-launcher-continue-with-discord.png</image:loc>
+      <image:title>Continue to Project Retrac with your Discord account</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://projectretrac.dev/assets/project-retrac-duck-mascot.png</image:loc>
+      <image:title>Project Retrac duck mascot with sunglasses</image:title>
+    </image:image>
+  </url>
+</urlset>
