@@ -326,8 +326,35 @@
 <!-- SEO content block: visible to crawlers, visually hidden -->
 
 
-</body>
+<script id="retrac-hydration-restore">
+(() => {
+  const panels = [...document.querySelectorAll(".retrac-added-panel")].map((node) => ({ html: node.outerHTML, label: node.getAttribute("aria-label") }));
+  const hardwareTemplate = document.querySelector(".retrac-hardware-grid")?.outerHTML;
+  const faqHeaderTemplate = document.querySelector(".retrac-faq-header")?.outerHTML;
+  if (!panels.length && !hardwareTemplate && !faqHeaderTemplate) return;
+  const insert = (html, target, position = "beforebegin") => { if (html && target) target.insertAdjacentHTML(position, html); };
+  const restore = () => {
+    const testimonials = document.querySelector("#testimonials");
+    const gameplay = document.querySelector("#gameplay");
+    const faq = document.querySelector("#faq");
+    const hardware = document.querySelector(".retrac-hardware-grid");
+    const find = (label) => document.querySelector(`.retrac-added-panel[aria-label="${label}"]`);
+    insert(panels.find((p) => p.label === "Project Retrac download information")?.html, testimonials && !find("Project Retrac download information") ? testimonials : null);
+    insert(panels.find((p) => p.label === "Project Retrac community")?.html, gameplay && !find("Project Retrac community") ? gameplay : null);
+    insert(panels.find((p) => p.label === "Project Retrac gameplay information")?.html, hardware && !find("Project Retrac gameplay information") ? hardware : null);
+    insert(panels.find((p) => p.label === "Using Project Retrac safely")?.html, faq && !find("Using Project Retrac safely") ? faq : null);
+    insert(hardwareTemplate, faq && !document.querySelector(".retrac-hardware-grid") ? faq : null);
+    if (faq && faqHeaderTemplate && !faq.querySelector(".retrac-faq-header")) faq.insertAdjacentHTML("afterbegin", faqHeaderTemplate);
+  };
+  restore();
+  let attempts = 0;
+  const timer = setInterval(() => { restore(); if (++attempts > 100) clearInterval(timer); }, 100);
+})();
+</script></body>
 </html>
+
+
+
 
 
 
