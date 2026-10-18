@@ -24,6 +24,8 @@
         syncRetracOrder();
     }
 
+    // Watch links only. Section reordering is intentionally not called from this
+    // observer because moving sections itself creates DOM mutations.
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.type === 'attributes' && mutation.target.tagName === 'A') fixLink(mutation.target);
@@ -33,7 +35,6 @@
                 node.querySelectorAll && node.querySelectorAll('a[href]').forEach(fixLink);
             });
         });
-        queueMicrotask(syncRetracOrder);
     });
     observer.observe(document.documentElement, {
         childList: true,
@@ -47,5 +48,4 @@
     else updateDownloadLinks();
     setTimeout(updateDownloadLinks, 500);
     setTimeout(updateDownloadLinks, 2000);
-    setTimeout(syncRetracOrder, 3000);
 })();
