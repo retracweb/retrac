@@ -357,9 +357,9 @@
   const ensureAfter = (selector, html, ref) => { let node = find(selector); if (!node && html && ref) { ref.insertAdjacentHTML("afterend", html); node = ref.nextElementSibling; } else if (node && ref && node !== ref && node.previousElementSibling !== ref) { ref.insertAdjacentElement("afterend", node); } return node || ref; };
   const restore = () => {
     const main = find("#main");
-    const why = find("#why"), testimonials = find("#testimonials"), faq = find("#faq"), classic = find("#gameplay");
-    const how = main?.querySelector(':scope > section[data-framer-name="HowItWorks"]');
-    if (!main || (!why && !testimonials) || !faq) return;
+    const why = find("#why"), testimonials = find("#testimonials"), classic = find("#gameplay");
+    const trusted = main?.querySelector(':scope > [data-retrac-anchor="trusted-heading"]');
+    if (!main || (!why && !testimonials)) return;
     const direct = (selector) => main.querySelector(`:scope > ${selector}`);
     const moveAfter = (node, ref) => {
       if (!node || !ref || node === ref) return node || ref;
@@ -392,12 +392,7 @@
     ref = divider("community", ref);
     ref = panel("Project Retrac community", ref);
 
-    // Keep How It Works and its heading/cards together after the community panel.
-    const originalHowDivider = how?.previousElementSibling?.getAttribute("data-framer-name") === "Divider" ? how.previousElementSibling : null;
-    if (originalHowDivider) ref = moveAfter(originalHowDivider, ref);
-    if (how) ref = moveAfter(how, ref);
-
-    ref = direct('[data-retrac-anchor="trusted-heading"]') || how || ref;
+    ref = trusted || ref;
     ref = divider("hardware", ref);
     let hardware = direct('.retrac-hardware-grid');
     if (!hardware && hardwareTemplate) { ref.insertAdjacentHTML("afterend", hardwareTemplate); hardware = ref.nextElementSibling; }
@@ -405,23 +400,11 @@
     ref = divider("safe", ref);
     ref = panel("Using Project Retrac safely", ref);
 
-    // Gameplay, Classic Fortnite Experience, separator, then the native FAQ.
+    // Keep Framer-managed native sections in React's original order. Only custom
+    // gameplay content is positioned after Classic Fortnite Experience.
+    ref = classic || ref;
     ref = divider("gameplay", ref);
-    ref = panel("Project Retrac gameplay information", ref);
-    if (classic) {
-      // Remove native divider siblings stranded by moving this exported section.
-      let stray = classic.nextElementSibling;
-      while (stray && stray.matches('section[data-framer-name="Divider"]') && !stray.hasAttribute("data-retrac-divider")) {
-        const next = stray.nextElementSibling;
-        stray.remove();
-        stray = next;
-      }
-    }
-    ref = moveAfter(classic, ref);
-    ref = divider("faq", ref);
-    const heading = direct('[data-framer-name="YourQuestionsHeading"]');
-    ref = moveAfter(heading, ref);
-    moveAfter(faq, ref);
+    panel("Project Retrac gameplay information", ref);
     animateAdded();
   };  window.__retracRestore = restore; restore(); animateAdded(); wireTextAnimations(); let attempts = 0; const timer = setInterval(() => { restore(); wireTextAnimations(); animateAdded(); if (++attempts > 100) clearInterval(timer); }, 100);
 })();
