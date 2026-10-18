@@ -323,7 +323,7 @@
   const headingTemplate = clean(document.querySelector('[data-framer-name="YourQuestionsHeading"]')?.outerHTML);
   const dividerTemplates = Object.fromEntries([...document.querySelectorAll("[data-retrac-divider]")].map((node) => [node.getAttribute("data-retrac-divider"), node.outerHTML]));
   const find = (selector) => document.querySelector(selector);
-  const ensureAfter = (selector, html, ref) => { let node = find(selector); if (!node && html && ref) { ref.insertAdjacentHTML("afterend", html); node = ref.nextElementSibling; } else if (node && ref && node !== ref) { ref.insertAdjacentElement("afterend", node); } return node || ref; };
+  const ensureAfter = (selector, html, ref) => { let node = find(selector); if (!node && html && ref) { ref.insertAdjacentHTML("afterend", html); node = ref.nextElementSibling; } else if (node && ref && node !== ref && node.previousElementSibling !== ref) { ref.insertAdjacentElement("afterend", node); } return node || ref; };
   const restore = () => {
     const trusted = find('[data-retrac-anchor="trusted-heading"]'), testimonials = find("#testimonials"), faq = find("#faq");
     if ((!trusted && !testimonials) || !faq) return;
@@ -345,6 +345,7 @@
 })();
 </script></body>
 </html>
+
 
 
 
