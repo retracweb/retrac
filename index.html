@@ -356,24 +356,46 @@
   };
   const ensureAfter = (selector, html, ref) => { let node = find(selector); if (!node && html && ref) { ref.insertAdjacentHTML("afterend", html); node = ref.nextElementSibling; } else if (node && ref && node !== ref && node.previousElementSibling !== ref) { ref.insertAdjacentElement("afterend", node); } return node || ref; };
   const restore = () => {
-    const trusted = find('[data-retrac-anchor="trusted-heading"]'), testimonials = find("#testimonials"), faq = find("#faq");
-    if ((!trusted && !testimonials) || !faq) return;
-    let ref = trusted || testimonials;
-    ref = ensureAfter('[data-retrac-divider="download"]', dividerTemplates.download, ref);
-    ref = ensureAfter('.retrac-added-panel[aria-label="Project Retrac download information"]', panelTemplates["Project Retrac download information"], ref);
-    ref = ensureAfter('[data-retrac-divider="community"]', dividerTemplates.community, ref);
-    ref = ensureAfter('.retrac-added-panel[aria-label="Project Retrac community"]', panelTemplates["Project Retrac community"], ref);
-    ref = ensureAfter('[data-retrac-divider="hardware"]', dividerTemplates.hardware, ref);
-    ref = ensureAfter('.retrac-hardware-grid', hardwareTemplate, ref);
-    ref = ensureAfter('[data-retrac-divider="safe"]', dividerTemplates.safe, ref);
-    ref = ensureAfter('.retrac-added-panel[aria-label="Using Project Retrac safely"]', panelTemplates["Using Project Retrac safely"], ref);
-    ref = ensureAfter('[data-retrac-divider="gameplay"]', dividerTemplates.gameplay, ref);
-    ref = ensureAfter('.retrac-added-panel[aria-label="Project Retrac gameplay information"]', panelTemplates["Project Retrac gameplay information"], ref);
-    ref = ensureAfter('[data-retrac-divider="faq"]', dividerTemplates.faq, ref);
-    ensureAfter('[data-framer-name="YourQuestionsHeading"]', headingTemplate, ref);
+    const why = find("#why"), how = find('section[data-framer-name="HowItWorks"]'), testimonials = find("#testimonials"), faq = find("#faq"), classic = find("#gameplay");
+    if ((!why && !testimonials) || !faq) return;
+    const moveAfter = (node, ref) => {
+      if (!node || !ref) return ref;
+      if (node.previousElementSibling !== ref) ref.insertAdjacentElement("afterend", node);
+      return node;
+    };
+    const placePair = (dividerKey, panelLabel, ref) => {
+      ref = ensureAfter(`[data-retrac-divider="${dividerKey}"]`, dividerTemplates[dividerKey], ref);
+      return ensureAfter(`.retrac-added-panel[aria-label="${panelLabel}"]`, panelTemplates[panelLabel], ref);
+    };
+
+    // Keep the download CTA after Why Choose and before the later core sections.
+    let ref = why || testimonials;
+    ref = placePair("download", "Project Retrac download information", ref);
+
+    // Put the community panel between Testimonials and How It Works.
+    ref = testimonials || ref;
+    ref = placePair("community", "Project Retrac community", ref);
+    ref = moveAfter(how, ref);
+
+    // Preserve the supporting information panels before the FAQ block.
+    ref = find('[data-retrac-anchor="trusted-heading"]') || ref;
+    ref = ensureAfter(`[data-retrac-divider="hardware"]`, dividerTemplates.hardware, ref);
+    ref = ensureAfter(`.retrac-hardware-grid`, hardwareTemplate, ref);
+    ref = placePair("safe", "Using Project Retrac safely", ref);
+
+    // FAQ heading sits directly above the real FAQ, followed by classic gameplay,
+    // then the native Classic Fortnite Experience section.
+    ref = ensureAfter(`[data-retrac-divider="faq"]`, dividerTemplates.faq, ref);
+    const heading = find('[data-framer-name="YourQuestionsHeading"]');
+    if (heading && faq) {
+      if (heading.previousElementSibling !== ref) ref.insertAdjacentElement("afterend", heading);
+      ref = heading;
+      if (faq.previousElementSibling !== ref) ref.insertAdjacentElement("afterend", faq);
+    }
+    ref = placePair("gameplay", "Project Retrac gameplay information", faq || ref);
+    moveAfter(classic, ref);
     animateAdded();
-  };
-  restore(); animateAdded(); wireTextAnimations(); let attempts = 0; const timer = setInterval(() => { restore(); wireTextAnimations(); animateAdded(); if (++attempts > 100) clearInterval(timer); }, 100);
+  };  window.__retracRestore = restore; restore(); animateAdded(); wireTextAnimations(); let attempts = 0; const timer = setInterval(() => { restore(); wireTextAnimations(); animateAdded(); if (++attempts > 100) clearInterval(timer); }, 100);
 })();
 </script></body>
 </html>
